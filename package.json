@@ -4,11 +4,14 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node init && next dev",
+    "build": "node init && next build",
+    "start": "node init && next start",
     "lint": "eslint",
     "test": "vitest run",
+    "api:contracts:generate": "node scripts/generate-api-contracts.mjs",
+    "api:contracts:check": "node scripts/generate-api-contracts.mjs --check",
+    "contract:check": "node scripts/check-backend-contract.mjs",
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
