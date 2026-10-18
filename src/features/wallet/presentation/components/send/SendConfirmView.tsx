@@ -2,7 +2,6 @@
 
 import React from "react";
 import type { RecipientInfo } from "./send-types";
-import { truncateAddress } from "./send-types";
 import { addDecimalValues, formatAssetAmount } from "@/lib/formatCurrency";
 import { AlertTriangle, ArrowLeft, Send } from "lucide-react";
 
@@ -50,7 +49,7 @@ export function SendConfirmView({
               </span>
             )}
             <span className="text-[#C2C7D0] text-xs font-mono break-all">
-              <span className="break-all" title={recipient.address}>{truncateAddress(recipient.address)}</span>
+              <span className="break-all">{recipient.address}</span>
             </span>
             {!recipient.exists && (
               <span className="text-amber-400 text-[10px] mt-1 font-medium">
