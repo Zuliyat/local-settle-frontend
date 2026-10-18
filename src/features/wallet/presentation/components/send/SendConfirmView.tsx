@@ -2,6 +2,8 @@
 
 import React from "react";
 import type { RecipientInfo } from "./send-types";
+import { truncateAddress } from "./send-types";
+import { addDecimalValues, formatAssetAmount } from "@/lib/formatCurrency";
 import { AlertTriangle, ArrowLeft, Send } from "lucide-react";
 
 interface SendConfirmViewProps {
@@ -25,12 +27,10 @@ export function SendConfirmView({
   onConfirm,
   isLoading = false,
 }: SendConfirmViewProps) {
-  const feeNum = fee ? parseFloat(fee) : (parseFloat(amount || "0") * 0.003);
-  const amountNum = parseFloat(amount || "0");
-  const totalNum = amountNum + feeNum;
-
-  const feeDisplay = feeNum.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 7 });
-  const totalDisplay = totalNum.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 7 });
+  const feeAmount = fee ?? String(Number(amount || "0") * 0.003);
+  const feeDisplay = formatAssetAmount(feeAmount);
+  const amountDisplay = formatAssetAmount(amount || "0");
+  const totalDisplay = formatAssetAmount(addDecimalValues(amount || "0", feeAmount));
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -50,7 +50,7 @@ export function SendConfirmView({
               </span>
             )}
             <span className="text-[#C2C7D0] text-xs font-mono break-all">
-              <span className="break-all">{recipient.address}</span>
+              <span className="break-all" title={recipient.address}>{truncateAddress(recipient.address)}</span>
             </span>
             {!recipient.exists && (
               <span className="text-amber-400 text-[10px] mt-1 font-medium">
@@ -84,7 +84,7 @@ export function SendConfirmView({
           <div className="flex justify-between items-center text-sm">
             <span className="text-[#9BABB7]">Transfer Amount</span>
             <span className="text-white font-bold tabular-nums">
-              {amount} {assetName}
+              {amountDisplay} {assetName}
             </span>
           </div>
           <div className="flex justify-between items-center text-sm">
